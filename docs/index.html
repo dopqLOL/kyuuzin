@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>求人情報</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #4CAF50;
+        }
+
+        table {
+            width: 95%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden; /* rounded corners for the whole table */
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer; /* ソート可能にする */
+        }
+
+        th:hover {
+            background-color: #45a049; /* ホバー時の色変化 */
+        }
+
+        /* 行の色を交互に変える */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* ホバー時の背景色 */
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* レスポンシブ対応 */
+        @media screen and (max-width: 600px) {
+            table {
+                width: 100%;
+            }
+            th, td {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+            th {
+                display: none; /* remove header for small screens */
+            }
+            tr {
+                margin-bottom: 10px; /* add some margin between rows on small screens */
+                border: 1px solid #ddd; /* borders for each row */
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* subtle shadow for each row */
+            }
+            td:before {
+                content: attr(data-label); /* show label before data */
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+                color: #666;
+            }
+        }
+    </style>
+    <script>
+        function sortTable(table, n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("jobTable");
+            switching = true;
+            // Set the sorting direction to ascending:
+            dir = "asc";
+            /* Make a loop that will continue until
+            no switching has been done: */
+            while (switching) {
+                // Start by saying: no switching is done:
+                switching = false;
+                rows = table.rows;
+                /* Loop through all table rows (except the
+                first, which contains table headers): */
+                for (i = 1; i < (rows.length - 1); i++) {
+                    // Start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /* Get the two elements you want to compare,
+                    one from current row and one from the next: */
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    /* Check if the two rows should switch place,
+                    based on the direction, asc or desc: */
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    /* If a switch is marked, make the switch
+                    and mark that a switch has been done: */
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    /* If no switching has been done AND the direction is "asc",
+                    set the direction to "desc" and run the while loop again. */
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>求人情報</h1>
+    <table id="jobTable">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>日付</th>
+                <th>企業名</th>
+                <th>職種</th>
+                <th>勤務地</th>
+                <th>給与</th>
+                <th>求人URL</th>
+                <th>備考</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td data-label="No.">1</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">ＫＩＮＴＯテクノロジーズ株式会社</td>
+                <td data-label="職種">iOS/Androidエンジニア</td>
+                <td data-label="勤務地">室町オフィス：東京都中央区日本橋室町二丁目３番１号 COREDO室町２, 神保町オフィス：東京都千代田区神田錦町三丁目22番地 テラススクエア8F</td>
+                <td data-label="給与">490万円～1,200万円（月給制、月額241,800円～）</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012542503/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">2</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">グラビティ株式会社</td>
+                <td data-label="職種">モバイルアプリエンジニアオープンポジション（Android／iOS）</td>
+                <td data-label="勤務地">東京都、神奈川県横浜エリア</td>
+                <td data-label="給与">400万円～600万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012287586/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">3</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社ＮＴＴデータＭＳＥ</td>
+                <td data-label="職種">大手通信キャリア向けサービス Androidエンジニア</td>
+                <td data-label="勤務地">横浜オフィス（神奈川県横浜市神奈川区金港町3番1号 コンカード横浜）</td>
+                <td data-label="給与">500万円～660万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012565851/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">4</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社ビットポイントジャパン</td>
+                <td data-label="職種">Androidアプリエンジニア</td>
+                <td data-label="勤務地">東京都港区虎ノ門4-2-3 虎ノ門トーセイビル8F</td>
+                <td data-label="給与">420万円～720万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012415627/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">5</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">ＧＭＯあおぞらネット銀行株式会社</td>
+                <td data-label="職種">iOS/Androidエンジニア</td>
+                <td data-label="勤務地">東京都渋谷区道玄坂1-2-3 渋谷フクラス</td>
+                <td data-label="給与">500万円～1,000万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012160722/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">6</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">---</td>
+                <td data-label="職種">検索結果</td>
+                <td data-label="勤務地">---</td>
+                <td data-label="給与">---</td>
+                <td data-label="求人URL"><a href="https://doda.jp/keyword/%EF%BD%81%EF%BD%8E%EF%BD%84%EF%BD%92%EF%BD%8F%EF%BD%89%EF%BD%84%E3%80%80%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%80%80%E4%B8%AD%E9%80%94%E6%8E%A1%E7%94%A8/">ANDROIDエンジニア中途採用 検索</a></td>
+                <td data-label="備考">doda.jpのキーワード検索結果です。</td>
+            </tr>
+            <tr>
+                <td data-label="No.">7</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">パーソルキャリア株式会社</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都</td>
+                <td data-label="給与">550万円～850万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012582542/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">8</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社サイバーエージェント</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都渋谷区</td>
+                <td data-label="給与">450万円～</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012131020/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">9</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">ヤフー株式会社</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都千代田区</td>
+                <td data-label="給与">500万円～900万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012410104/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">10</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">LINE株式会社</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都新宿区</td>
+                <td data-label="給与">600万円～1200万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012363179/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">11</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">楽天株式会社</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都世田谷区</td>
+                <td data-label="給与">500万円～1000万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012110883/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">12</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社メルカリ</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都港区</td>
+                <td data-label="給与">600万円～1100万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012417096/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">13</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社ディー・エヌ・エー(DeNA)</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都渋谷区</td>
+                <td data-label="給与">500万円～1000万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012248653/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">14</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">グリー株式会社</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都港区</td>
+                <td data-label="給与">500万円～900万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012521153/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+             <tr>
+                <td data-label="No.">15</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社サイバーエージェント</td>
+                <td data-label="職種">Androidアプリエンジニア</td>
+                <td data-label="勤務地">東京都渋谷区</td>
+                <td data-label="給与">450万円～</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012294824/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">16</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社MIXI</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都渋谷区</td>
+                <td data-label="給与">500万円～1000万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012322412/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">17</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社GameWith</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都港区</td>
+                <td data-label="給与">450万円～800万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012559902/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">18</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社エイチーム</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都渋谷区</td>
+                <td data-label="給与">400万円～700万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012135271/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">19</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">Supership株式会社</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都港区</td>
+                <td data-label="給与">500万円～900万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012137636/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">20</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社gumi</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都新宿区</td>
+                <td data-label="給与">450万円～800万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012155187/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">21</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社Aiming</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都渋谷区</td>
+                <td data-label="給与">400万円～700万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012527573/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">22</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社Cygames</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都渋谷区</td>
+                <td data-label="給与">500万円～1000万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012109264/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">23</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">NHN Japan株式会社</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都港区</td>
+                <td data-label="給与">500万円～900万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012197789/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">24</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社アカツキ</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都品川区</td>
+                <td data-label="給与">500万円～900万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012361144/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">25</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">KLab株式会社</td>
+                <td data-label="職種">Androidエンジニア</td>
+                <td data-label="勤務地">東京都港区</td>
+                <td data-label="給与">500万円～1000万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012336796/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">26</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">パーソルキャリア株式会社</td>
+                <td data-label="職種">ITコンサルタント</td>
+                <td data-label="勤務地">東京都</td>
+                <td data-label="給与">550万円～950万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012520732/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">27</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">株式会社サイバーエージェント</td>
+                <td data-label="職種">データアナリスト</td>
+                <td data-label="勤務地">東京都渋谷区</td>
+                <td data-label="給与">450万円～</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012616392/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">28</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">ヤフー株式会社</td>
+                <td data-label="職種">フロントエンドエンジニア</td>
+                <td data-label="勤務地">東京都千代田区</td>
+                <td data-label="給与">500万円～900万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012230816/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+            <tr>
+                <td data-label="No.">29</td>
+                <td data-label="日付">1/29</td>
+                <td data-label="企業名">パーソルキャリア株式会社</td>
+                <td data-label="職種">Webアプリケーションエンジニア</td>
+                <td data-label="勤務地">東京都</td>
+                <td data-label="給与">500万円～800万円</td>
+                <td data-label="求人URL"><a href="https://doda.jp/DodaFront/View/JobSearchDetail/j_jid__3012428511/">求人詳細</a></td>
+                <td data-label="備考"></td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const table = document.getElementById('jobTable');
+            const headers = table.querySelectorAll('th');
+
+            headers.forEach((header, index) => {
+                if (index !== 0) { // Noをソートしない
+                    header.addEventListener('click', () => {
+                        sortTable(table, index);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
